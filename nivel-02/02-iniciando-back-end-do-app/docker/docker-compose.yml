@@ -1,0 +1,40 @@
+version: '3.6'
+
+services:
+  postgres:
+    user: root
+    image: postgres:9.6
+    container_name: postgres
+    networks:
+      - postgres-network
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_DB: 'gostack_gobarber'
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+
+  pgadmin:
+    user: root
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    networks:
+      - postgres-network
+    command: chmod 0777 /var/lib/pgadmin -R
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'leonardoquintania@gmail.com'
+      PGADMIN_DEFAULT_PASSWORD: '123456789'
+    ports:
+      - 8899:80
+    volumes:
+      - ./postgres/pgadmin:/var/lib/pgadmin
+
+networks:
+  postgres-network:
+    driver: bridge
