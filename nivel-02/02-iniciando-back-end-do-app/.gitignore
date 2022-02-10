@@ -58,3 +58,6 @@ buck-out/
 # CocoaPods
 /ios/Pods/
 /docker/postgres/
+
+tmp/*
+!tmp/.gitkeep
